@@ -1,5 +1,6 @@
 import { sub } from "date-fns";
 import { useState } from "react";
+import type { GetLabelTypes, GetMovTypes } from "../../@types/getOptions";
 import type { SubQueryResponse } from "../../@types/response";
 import { Api } from "../../services/api";
 
@@ -20,9 +21,17 @@ export async function getServerSideProps() {
   };
 }
 
-export default function querySubpackages({ labelTypes, movTypes }) {
+export default function querySubpackages({
+  labelTypes,
+  movTypes,
+}: {
+  labelTypes: GetLabelTypes[];
+  movTypes: GetMovTypes[];
+}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [labelType, setLabelType] = useState<number | null>(labelTypes[0].code);
+  const [labelType, setLabelType] = useState<number | null>(
+    labelTypes[0]!.code
+  );
   const [movementType, setMovementType] = useState<number | null>(null);
   const [endTime, setEndTime] = useState(
     new Date().toISOString().split(".")[0]!
