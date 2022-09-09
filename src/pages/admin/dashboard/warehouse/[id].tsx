@@ -6,7 +6,7 @@ import { getParcelsData } from "../../../../utils/getParcelsData";
 export async function getStaticPaths() {
   return {
     paths: [{ params: { id: "37" } }, { params: { id: "39" } }],
-    fallback: false, // can also be true or 'blocking'
+    fallback: false,
   };
 }
 
@@ -38,36 +38,57 @@ function Parcels({ params }) {
   if (data) {
     const { PACKING, READY_TO_PICK, RECEIVING, SELLER_SHIPPED, SENT } = data;
     return (
-      <div className="flex flex-col justify-center w-full p-2.5">
-        <div className="flex">
-          <Card description="Seller shipped A" data={SELLER_SHIPPED?.labelA} />
-          <Card description="Receiving A" data={RECEIVING?.labelA} />
-          <Card description="Ready To Pick A" data={READY_TO_PICK?.labelA} />
-          <Card description="Packing A" data={PACKING?.labelA} />
-          <Card description="Sent A" data={SENT?.labelA} />
-        </div>
+      <>
+        <section className="bg-white dark:bg-gray-900">
+          <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-4 lg:px-6">
+            <div className="space-y-4 md:grid md:grid-cols-2 lg:grid-cols-5 md:gap-12 md:space-y-0">
+              <div>
+                <Card
+                  description="Seller shipped A"
+                  data={SELLER_SHIPPED?.labelA}
+                />
+              </div>
+              <div>
+                <Card description="Receiving A" data={RECEIVING?.labelA} />
+              </div>
+              <div>
+                <Card
+                  description="Ready To Pick A"
+                  data={READY_TO_PICK?.labelA}
+                />
+              </div>
+              <div>
+                <Card description="Packing A" data={PACKING?.labelA} />
+              </div>
+              <div>
+                <Card description="Sent A" data={SENT?.labelA} />
+              </div>
 
-        <div className="flex">
-          <Card description="Seller shipped B" data={SELLER_SHIPPED?.labelB} />
-          <Card description="Receiving B" data={RECEIVING?.labelB} />
-          <Card description="Sent B" data={SENT?.labelB} />
-        </div>
-      </div>
+              <div>
+                <Card
+                  description="Seller shipped B"
+                  data={SELLER_SHIPPED?.labelB}
+                />
+              </div>
+
+              <div>
+                <Card description="Receiving B" data={RECEIVING?.labelB} />
+              </div>
+              <div>
+                <Card description="Sent B" data={SENT?.labelB} />
+              </div>
+            </div>
+          </div>
+        </section>
+      </>
     );
   }
 
   if (error) return <div>error</div>;
   return <div></div>;
-  // return (
-  //   <div className="flex justify-center w-full">
-  //     <div className="bg-white shadow-md rounded p-4 mb-4">hello</div>
-  //   </div>
-  // );
 }
 
 export default function Dashboard({ fallback, params }) {
-  console.log(fallback);
-
   return (
     <SWRConfig value={{ fallback }}>
       <Parcels params={params} />
