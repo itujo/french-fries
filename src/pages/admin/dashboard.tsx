@@ -35,6 +35,7 @@ export default function Dashboard() {
   }
 
   if (error) return <div>error</div>;
+  return <div></div>;
   // return (
   //   <div className="flex justify-center w-full">
   //     <div className="bg-white shadow-md rounded p-4 mb-4">hello</div>

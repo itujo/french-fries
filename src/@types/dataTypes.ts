@@ -1,8 +1,3 @@
-interface DELIVERY_TYPE {
-  LABEL_B: 1;
-  LABEL_A: 2;
-}
-
 interface RECEIVING {
   delivery_type: number[];
   is_cancel: string;
