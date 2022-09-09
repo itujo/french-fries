@@ -5,6 +5,8 @@ async function getParcelsData() {
     ({ data }) => data
   );
 
+  console.log(parcelsData);
+
   return parcelsData;
 }
 
