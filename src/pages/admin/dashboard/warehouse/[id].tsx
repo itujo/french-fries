@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import useSWR, { SWRConfig } from "swr";
 import Card from "../../../../components/Card/Card";
 import { Api } from "../../../../services/api";
@@ -19,22 +18,20 @@ export async function getStaticProps({ params }) {
       fallback: {
         "/subpackages/getall": parcelsData,
       },
+      params,
     },
   };
 }
 
 const fetcher = (url: string) => Api.get(url).then((res) => res.data);
 
-function Parcels() {
-  const router = useRouter();
-  const { id } = router.query;
-
+function Parcels({ params }) {
   const { data, error } = useSWR<{
     [x: string]: {
       labelA: number;
       labelB: number | null;
     };
-  }>(`/subpackages/getall/${id}`, fetcher, {
+  }>(`/subpackages/getall/${params.id}`, fetcher, {
     refreshInterval: 1000,
   });
 
@@ -69,10 +66,10 @@ function Parcels() {
   // );
 }
 
-export default function Dashboard({ fallback }) {
+export default function Dashboard({ fallback, params }) {
   return (
     <SWRConfig value={{ fallback }}>
-      <Parcels />
+      <Parcels params={params} />
     </SWRConfig>
   );
 }
