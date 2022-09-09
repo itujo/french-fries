@@ -1,6 +1,10 @@
 import { sub } from "date-fns";
 import { useState } from "react";
-import type { GetLabelTypes, GetMovTypes } from "../../@types/getOptions";
+import type {
+  GetLabelTypes,
+  GetMovTypes,
+  GetWarehouses,
+} from "../../@types/getOptions";
 import type { SubQueryResponse } from "../../@types/response";
 import { Api } from "../../services/api";
 
@@ -12,11 +16,14 @@ export async function getServerSideProps() {
   const movTypes = await Api.get("/opt/movtypes")
     .then(({ data }) => data)
     .catch((err) => err.response.data);
-
+  const warehouses = await Api.get("/opt/warehouses")
+    .then(({ data }) => data)
+    .catch((err) => err.response.data);
   return {
     props: {
       labelTypes,
       movTypes,
+      warehouses,
     }, // will be passed to the page component as props
   };
 }
@@ -24,15 +31,22 @@ export async function getServerSideProps() {
 export default function querySubpackages({
   labelTypes,
   movTypes,
+  warehouses,
 }: {
   labelTypes: GetLabelTypes[];
   movTypes: GetMovTypes[];
+  warehouses: GetWarehouses[];
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [labelType, setLabelType] = useState<number | null>(
     labelTypes[0]!.code
   );
-  const [movementType, setMovementType] = useState<number | null>(null);
+  const [movementType, setMovementType] = useState<number | null>(
+    movTypes[0]!.code
+  );
+  const [warehouse, setWarehouse] = useState<string | null>(
+    `${warehouses[0]!.code}`
+  );
   const [endTime, setEndTime] = useState(
     new Date().toISOString().split(".")[0]!
   );
@@ -53,6 +67,7 @@ export default function querySubpackages({
       movementType,
       startTime,
       endTime,
+      warehouse,
     })
       .then(({ data }) => data)
       .catch((err) => err.response.data);
@@ -69,6 +84,25 @@ export default function querySubpackages({
           <div className="bg-white shadow-md rounded p-4 mb-4">
             <h1 className="text-center mt-2">consulta de subpacotes</h1>
             <div className=" flex flex-1 gap-4">
+              <div className="mb-4">
+                <label
+                  htmlFor="labels"
+                  className="mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+                >
+                  warehouse
+                </label>
+                <select
+                  id="warehouse"
+                  onChange={(e) => setWarehouse(e.target.value)}
+                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                >
+                  {warehouses.map((warehouse) => (
+                    <option key={warehouse.id} value={warehouse.code}>
+                      {warehouse.description}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="mb-4">
                 <label
                   htmlFor="labels"

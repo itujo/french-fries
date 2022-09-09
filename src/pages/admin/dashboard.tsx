@@ -1,4 +1,5 @@
 import useSWR, { SWRConfig } from "swr";
+import Card from "../../components/Card/Card";
 import { Api } from "../../services/api";
 import { getParcelsData } from "../../utils/getParcelsData";
 
@@ -17,18 +18,33 @@ export async function getStaticProps() {
 const fetcher = (url: string) => Api.post(url).then((res) => res.data);
 
 function Parcels() {
-  const { data, error } = useSWR("/subpackages/getall", fetcher);
+  const { data, error } = useSWR<{
+    [x: string]: {
+      labelA: number;
+      labelB: number | null;
+    };
+  }>("/subpackages/getall", fetcher, {
+    refreshInterval: 1000,
+  });
 
   if (!data) return <div>loading</div>;
   if (data) {
     const { PACKING, READY_TO_PICK, RECEIVING, SELLER_SHIPPED, SENT } = data;
     return (
-      <div>
-        <div>receiving: {RECEIVING}</div>
-        <div>packing A: {PACKING.labelA}</div>
-        <div>ready_to_pick: {READY_TO_PICK}</div>
-        <div>seller_shipped: {SELLER_SHIPPED}</div>
-        <div>sent: {SENT}</div>
+      <div className="flex flex-col justify-center w-full p-2.5">
+        <div className="flex">
+          <Card description="Seller shipped A" data={SELLER_SHIPPED?.labelA} />
+          <Card description="Receiving A" data={RECEIVING?.labelA} />
+          <Card description="Ready To Pick A" data={READY_TO_PICK?.labelA} />
+          <Card description="Packing A" data={PACKING?.labelA} />
+          <Card description="Sent A" data={SENT?.labelA} />
+        </div>
+
+        <div className="flex">
+          <Card description="Seller shipped B" data={SELLER_SHIPPED?.labelB} />
+          <Card description="Receiving B" data={RECEIVING?.labelB} />
+          <Card description="Sent B" data={SENT?.labelB} />
+        </div>
       </div>
     );
   }
