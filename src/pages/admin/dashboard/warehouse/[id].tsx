@@ -6,12 +6,11 @@ import { getParcelsData } from "../../../../utils/getParcelsData";
 export async function getStaticPaths() {
   return {
     paths: [{ params: { id: "37" } }, { params: { id: "39" } }],
-    fallback: "blocking", // can also be true or 'blocking'
+    fallback: false, // can also be true or 'blocking'
   };
 }
 
 export async function getStaticProps({ params }) {
-  // `getStaticProps` is executed on the server side.
   const parcelsData = await getParcelsData(params.id);
   return {
     props: {
