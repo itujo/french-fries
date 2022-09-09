@@ -1,7 +1,7 @@
 import { Api } from "../services/api";
 
-async function getParcelsData() {
-  const parcelsData = await Api.post("/subpackages/getall").then(
+async function getParcelsData(d) {
+  const parcelsData = await Api.get(`/subpackages/getall/${d}`).then(
     ({ data }) => data
   );
 
