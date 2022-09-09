@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { SubQueryResponse } from "../../@types/response";
 import { Api } from "../../services/api";
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const labelTypes = await Api.get("/opt/labels")
     .then(({ data }) => data)
     .catch((err) => err.response.data);
