@@ -16,7 +16,7 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       fallback: {
-        [unstable_serialize(["subpackages", "getall", params.id])]: parcelsData,
+        [unstable_serialize(`/subpackages/getall/${params.id}`)]: parcelsData,
       },
       params,
     },
@@ -67,6 +67,8 @@ function Parcels({ params }) {
 }
 
 export default function Dashboard({ fallback, params }) {
+  console.log(fallback);
+
   return (
     <SWRConfig value={{ fallback }}>
       <Parcels params={params} />
