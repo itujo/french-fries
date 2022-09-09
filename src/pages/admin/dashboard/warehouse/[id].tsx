@@ -1,4 +1,4 @@
-import useSWR, { SWRConfig } from "swr";
+import useSWR, { SWRConfig, unstable_serialize } from "swr";
 import Card from "../../../../components/Card/Card";
 import { Api } from "../../../../services/api";
 import { getParcelsData } from "../../../../utils/getParcelsData";
@@ -16,7 +16,7 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       fallback: {
-        "/subpackages/getall": parcelsData,
+        [unstable_serialize(["subpackages", "getall", params.id])]: parcelsData,
       },
       params,
     },
