@@ -6,7 +6,7 @@ import { getParcelsData } from "../../../../utils/getParcelsData";
 export async function getStaticPaths() {
   return {
     paths: [{ params: { id: "37" } }, { params: { id: "39" } }],
-    fallback: false, // can also be true or 'blocking'
+    fallback: true, // can also be true or 'blocking'
   };
 }
 
