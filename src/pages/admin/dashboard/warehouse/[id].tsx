@@ -1,11 +1,20 @@
 import useSWR, { SWRConfig, unstable_serialize } from "swr";
+import type { GetWarehouses } from "../../../../@types/getOptions";
 import Card from "../../../../components/Card/Card";
 import { Api } from "../../../../services/api";
 import { getParcelsData } from "../../../../utils/getParcelsData";
 
 export async function getStaticPaths() {
+  const warehouses: GetWarehouses[] = await Api.get("/opt/warehouses")
+    .then(({ data }) => data)
+    .catch((err) => err.response.data);
+
+  const paths = warehouses.map((warehouse) => ({
+    params: { id: warehouse.code },
+  }));
+
   return {
-    paths: [{ params: { id: "37" } }, { params: { id: "39" } }],
+    paths,
     fallback: false,
   };
 }
@@ -13,6 +22,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const parcelsData = await getParcelsData(params.id);
   return {
+    revalidate: 10,
     props: {
       fallback: {
         [unstable_serialize(`/subpackages/getall/${params.id}`)]: parcelsData,
