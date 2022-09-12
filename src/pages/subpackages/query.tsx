@@ -28,7 +28,7 @@ export async function getServerSideProps() {
   };
 }
 
-export default function querySubpackages({
+export default function QuerySubpackages({
   labelTypes,
   movTypes,
   warehouses,

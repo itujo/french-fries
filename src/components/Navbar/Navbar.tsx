@@ -1,8 +1,9 @@
 import { Navbar as FlowNavbar } from "flowbite-react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import anjunLogo from "../../../public/assets/logo.png";
 import { Api } from "../../services/api";
-
 export default function Navbar() {
   const [w, setW] = useState();
   const router = useRouter();
@@ -24,27 +25,40 @@ export default function Navbar() {
       };
       findWr();
     }
-  }, []);
+  }, [id]);
 
   return (
     <FlowNavbar fluid={true} rounded={true}>
       <FlowNavbar.Brand href="/">
-        <img
-          src="https://anjunbrasil.com.br/wp-content/uploads/2022/08/logo-anjun-oficial.png"
-          className="mr-3 h-6 sm:h-9"
-          alt="Flowbite Logo"
-        />
+        <div className="relative mr-3 w-16 h-6 sm:w-24 sm:h-9">
+          <Image
+            src={anjunLogo}
+            layout="fill"
+            alt="Anjun Logo"
+            className="rounded-full"
+          />
+        </div>
       </FlowNavbar.Brand>
-      <FlowNavbar.Toggle />
       <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
         {w ? w : null}
       </span>
+      <FlowNavbar.Toggle />
       <FlowNavbar.Collapse>
-        <FlowNavbar.Link href="/" active={true}>
+        <FlowNavbar.Link href="/" active={router.pathname === "/"}>
           Home
         </FlowNavbar.Link>
-        <FlowNavbar.Link href="/admin/dashboard">Dashboard</FlowNavbar.Link>
-        <FlowNavbar.Link href="/subpackages/query">Consulta</FlowNavbar.Link>
+        <FlowNavbar.Link
+          href="/admin/dashboard"
+          active={router.pathname.includes("/admin/dashboard")}
+        >
+          Dashboard
+        </FlowNavbar.Link>
+        <FlowNavbar.Link
+          href="/subpackages/query"
+          active={router.pathname === "/subpackages/query"}
+        >
+          Consulta
+        </FlowNavbar.Link>
       </FlowNavbar.Collapse>
     </FlowNavbar>
   );

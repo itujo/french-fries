@@ -17,12 +17,14 @@ export default function Card({ description, data }) {
       </div> */}
 
       <FlowCard>
-        <h5 className="text-3xl text-center w-full lg:text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-          {description}
-        </h5>
-        <p className="text-3xl lg:text-xl text-center font-normal text-gray-700 dark:text-gray-400">
-          {data}
-        </p>
+        <div className="h-24">
+          <h5 className="text-3xl text-center w-full lg:text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {description}
+          </h5>
+          <p className="text-3xl lg:text-xl text-center font-normal text-gray-700 dark:text-gray-400">
+            {data}
+          </p>
+        </div>
       </FlowCard>
     </>
   );
