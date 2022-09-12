@@ -20,8 +20,6 @@ export default function Navbar() {
 
         const w = a.find((wh) => wh.code === id);
 
-        console.log({ w });
-
         setW(w.description);
       };
       findWr();
