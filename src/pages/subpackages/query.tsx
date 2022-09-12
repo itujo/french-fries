@@ -25,6 +25,7 @@ export async function getStaticProps() {
       movTypes,
       warehouses,
     }, // will be passed to the page component as props
+    fallback: "blocking",
   };
 }
 

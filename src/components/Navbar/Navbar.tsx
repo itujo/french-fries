@@ -1,5 +1,6 @@
 import { Navbar as FlowNavbar } from "flowbite-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import anjunLogo from "../../../public/assets/logo.png";
@@ -44,21 +45,25 @@ export default function Navbar() {
       </span>
       <FlowNavbar.Toggle />
       <FlowNavbar.Collapse>
-        <FlowNavbar.Link href="/" active={router.pathname === "/"}>
-          Home
-        </FlowNavbar.Link>
-        <FlowNavbar.Link
-          href="/admin/dashboard"
-          active={router.pathname.includes("/admin/dashboard")}
-        >
-          Dashboard
-        </FlowNavbar.Link>
-        <FlowNavbar.Link
-          href="/subpackages/query"
-          active={router.pathname === "/subpackages/query"}
-        >
-          Consulta
-        </FlowNavbar.Link>
+        <Link href="/">
+          <FlowNavbar.Link active={router.pathname === "/"}>
+            Home
+          </FlowNavbar.Link>
+        </Link>
+
+        <Link href="/admin/dashboard">
+          <FlowNavbar.Link
+            active={router.pathname.includes("/admin/dashboard")}
+          >
+            Dashboard
+          </FlowNavbar.Link>
+        </Link>
+
+        <Link href="/subpackages/query">
+          <FlowNavbar.Link active={router.pathname === "/subpackages/query"}>
+            Consulta
+          </FlowNavbar.Link>
+        </Link>
       </FlowNavbar.Collapse>
     </FlowNavbar>
   );
