@@ -8,7 +8,7 @@ import type {
 import type { SubQueryResponse } from "../../@types/response";
 import { Api } from "../../services/api";
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const labelTypes = await Api.get("/opt/labels")
     .then(({ data }) => data)
     .catch((err) => err.response.data);
