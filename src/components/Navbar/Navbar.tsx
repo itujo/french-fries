@@ -1,4 +1,3 @@
-import cn from "classnames";
 import { Navbar as FlowNavbar } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,7 +5,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import anjunLogo from "../../../public/assets/logo.png";
 import { Api } from "../../services/api";
-import { NavbarLinkStyles } from "./Navbar.styles";
 export default function Navbar() {
   const [w, setW] = useState();
   const router = useRouter();
@@ -30,8 +28,6 @@ export default function Navbar() {
     }
   }, [id]);
 
-  console.log(cn(NavbarLinkStyles.base));
-
   return (
     <FlowNavbar fluid={true} rounded={true}>
       <FlowNavbar.Brand href="/">
@@ -49,13 +45,25 @@ export default function Navbar() {
       </span>
       <FlowNavbar.Toggle />
       <FlowNavbar.Collapse>
-        <div className={cn(NavbarLinkStyles.base)}>
-          <Link href="/">Home</Link>
-        </div>
+        <Link href="/">
+          <FlowNavbar.Link active={router.pathname === "/"}>
+            Home
+          </FlowNavbar.Link>
+        </Link>
 
-        <Link href="/admin/dashboard">Dashboard</Link>
+        <Link href="/admin/dashboard">
+          <FlowNavbar.Link
+            active={router.pathname.includes("/admin/dashboard")}
+          >
+            Dashboard
+          </FlowNavbar.Link>
+        </Link>
 
-        <Link href="/subpackages/query">Consulta</Link>
+        <Link href="/subpackages/query">
+          <FlowNavbar.Link active={router.pathname === "/subpackages/query"}>
+            Consulta
+          </FlowNavbar.Link>
+        </Link>
       </FlowNavbar.Collapse>
     </FlowNavbar>
   );
