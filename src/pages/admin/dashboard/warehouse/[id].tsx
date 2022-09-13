@@ -49,7 +49,9 @@ function Parcels({ params, lastUpdated }) {
   );
 
   useEffect(() => {
-    console.log(data);
+    if (data?.PACKING.labelA !== null) {
+      setLastUpdated(new Date());
+    }
   }, [data]);
 
   if (!data) return <div>loading</div>;
