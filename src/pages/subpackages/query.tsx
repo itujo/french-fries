@@ -89,8 +89,15 @@ export default function QuerySubpackages({
         warehouses: f.warehouses,
         labelTypes: [lbA!],
       }));
+      setOptions((o) => ({
+        labelType: lbA?.code,
+        movType: o.movType,
+        warehouse: o.warehouse,
+      }));
     }
-  }, [options.warehouse, labelTypes, warehouses]);
+
+    console.log(options.labelType);
+  }, [options.warehouse, labelTypes, warehouses, options.labelType]);
 
   useEffect(() => {
     if (options.labelType === 1) {
@@ -111,6 +118,16 @@ export default function QuerySubpackages({
 
   async function handleSubmit() {
     setIsSubmitting(true);
+    console.log(options.labelType);
+
+    console.log({
+      labelType: options.labelType,
+      movementType: options.movType,
+      startTime: dateTime.startTime,
+      endTime: dateTime.endTime,
+      warehouse: options.warehouse,
+    });
+
     const r = await Api.post("/subpackages/hourbyhour", {
       labelType: options.labelType,
       movementType: options.movType,
