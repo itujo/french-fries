@@ -49,7 +49,7 @@ function Parcels({ params, lastUpdated }) {
   );
 
   useEffect(() => {
-    setLastUpdated(new Date().toJSON());
+    console.log(data);
   }, [data]);
 
   if (!data) return <div>loading</div>;
