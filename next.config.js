@@ -1,5 +1,7 @@
-module.exports = {
-  images: {
-    domains: ["anjunbrasil.com.br"],
-  },
-};
+const withPWA = require('next-pwa')({
+  dest: 'public'
+})
+
+module.exports = withPWA({
+  // next.js config
+})
