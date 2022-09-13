@@ -7,10 +7,13 @@ export interface GetLabelTypes {
   updatedAt: string;
   createdAt: string;
 }
+
 export interface GetWarehouses {
   id: number;
   description: string;
-  code: number;
+  code: string;
+  labelA: boolean;
+  labelB: boolean;
   updatedAt: string;
   createdAt: string;
 }

@@ -5,7 +5,9 @@ async function getParcelsData(d) {
     ({ data }) => data
   );
 
-  return parcelsData;
+  const updatedDate = new Date().toJSON();
+
+  return { parcelsData, updatedDate };
 }
 
 export { getParcelsData };

@@ -40,62 +40,83 @@ export default function QuerySubpackages({
   movTypes: GetMovTypes[];
   warehouses: GetWarehouses[];
 }) {
-  const [filteredMovTypes, setFilteredMovTypes] = useState(movTypes);
+  const [filtered, setFiltered] = useState({
+    movTypes,
+    warehouses,
+    labelTypes,
+  });
+
+  const [options, setOptions] = useState({
+    labelType: labelTypes[0]?.code,
+    movType: movTypes[0]?.code,
+    warehouse: warehouses[0]?.code.toString(),
+  });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [labelType, setLabelType] = useState<number | null>(
-    labelTypes[0]!.code
-  );
-  const [movementType, setMovementType] = useState<number | null>(
-    movTypes[0]!.code
-  );
-  const [warehouse, setWarehouse] = useState<string | null>(
-    `${warehouses[0]!.code}`
-  );
 
   const d = new Date();
-  const endDate = formatInTimeZone(
+
+  const endTime = formatInTimeZone(
     d,
     "America/Sao_Paulo",
     `yyyy-MM-dd\'T\'HH:mm:ss`
   );
 
-  const [endTime, setEndTime] = useState(endDate);
-  const [startTime, setStartTime] = useState(
-    sub(new Date(endTime), {
-      hours: 4,
-    })
-      .toISOString()
-      .split(".")[0]
-  );
+  const startTime = sub(new Date(endTime), {
+    hours: 4,
+  })
+    .toISOString()
+    .split(".")[0];
+  const [dateTime, setDateTime] = useState({
+    endTime,
+    startTime,
+  });
 
   const [movData, setMovData] = useState<SubQueryResponse | null>(null);
 
   useEffect(() => {
-    if (labelType === 1) {
-      const nMov = movTypes.filter((mov) => mov.labelB === true);
-      setFilteredMovTypes(nMov);
+    const lbA = labelTypes.find((l) => l.description === "A");
+    const lbB = labelTypes.find((l) => l.description === "B");
+    if (options.warehouse === "39") {
+      setFiltered((f) => ({
+        movTypes: f.movTypes,
+        warehouses: f.warehouses,
+        labelTypes: [lbA!, lbB!],
+      }));
     } else {
-      setFilteredMovTypes(movTypes);
+      setFiltered((f) => ({
+        movTypes: f.movTypes,
+        warehouses: f.warehouses,
+        labelTypes: [lbA!],
+      }));
     }
-  }, [labelType, movTypes]);
+  }, [options.warehouse, labelTypes, warehouses]);
 
   useEffect(() => {
-    if (labelType === 1) {
-      const nMov = movTypes.filter((mov) => mov.labelB === true);
-      setFilteredMovTypes(nMov);
+    if (options.labelType === 1) {
+      const m = movTypes.filter((mov) => mov.labelB === true);
+      setFiltered((f) => ({
+        movTypes: m,
+        warehouses: f.warehouses,
+        labelTypes: f.labelTypes,
+      }));
     } else {
-      setFilteredMovTypes(movTypes);
+      setFiltered((f) => ({
+        movTypes,
+        warehouses: f.warehouses,
+        labelTypes: f.labelTypes,
+      }));
     }
-  }, [labelType, movTypes]);
+  }, [movTypes, options.labelType]);
 
   async function handleSubmit() {
     setIsSubmitting(true);
     const r = await Api.post("/subpackages/hourbyhour", {
-      labelType,
-      movementType,
-      startTime,
-      endTime,
-      warehouse,
+      labelType: options.labelType,
+      movementType: options.movType,
+      startTime: dateTime.startTime,
+      endTime: dateTime.endTime,
+      warehouse: options.warehouse,
     })
       .then(({ data }) => data)
       .catch((err) => err.response.data);
@@ -105,7 +126,7 @@ export default function QuerySubpackages({
     setMovData(r);
   }
 
-  if (labelTypes && filteredMovTypes) {
+  if (labelTypes && filtered.movTypes) {
     return (
       <>
         <div className="flex justify-center w-full">
@@ -121,7 +142,12 @@ export default function QuerySubpackages({
                 </label>
                 <select
                   id="warehouse"
-                  onChange={(e) => setWarehouse(e.target.value)}
+                  onChange={(e) =>
+                    setOptions({
+                      ...options,
+                      warehouse: e.target.value,
+                    })
+                  }
                   className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 >
                   {warehouses.map((warehouse) => (
@@ -140,10 +166,15 @@ export default function QuerySubpackages({
                 </label>
                 <select
                   id="labels"
-                  onChange={(e) => setLabelType(parseInt(e.target.value, 10))}
+                  onChange={(e) =>
+                    setOptions({
+                      ...options,
+                      labelType: parseInt(e.target.value, 10),
+                    })
+                  }
                   className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 >
-                  {labelTypes.map((label) => (
+                  {filtered.labelTypes.map((label) => (
                     <option key={label.id} value={label.code}>
                       {label.description}
                     </option>
@@ -160,11 +191,14 @@ export default function QuerySubpackages({
                 <select
                   id="movType"
                   onChange={(e) =>
-                    setMovementType(parseInt(e.target.value, 10))
+                    setOptions({
+                      ...options,
+                      movType: parseInt(e.target.value, 10),
+                    })
                   }
                   className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 >
-                  {filteredMovTypes.map((movType) => (
+                  {filtered.movTypes.map((movType) => (
                     <option key={movType.id} value={movType.code}>
                       {movType.description}
                     </option>
@@ -185,8 +219,13 @@ export default function QuerySubpackages({
                   name="date"
                   id="date"
                   step={1}
-                  value={startTime}
-                  onChange={(e) => setStartTime(e.target.value)}
+                  value={dateTime.startTime}
+                  onChange={(e) =>
+                    setDateTime({
+                      ...dateTime,
+                      startTime: e.target.value,
+                    })
+                  }
                 />
               </div>
 
@@ -203,8 +242,13 @@ export default function QuerySubpackages({
                   name="date"
                   id="date"
                   step={1}
-                  onChange={(e) => setEndTime(e.target.value)}
-                  value={endTime}
+                  value={dateTime.endTime}
+                  onChange={(e) =>
+                    setDateTime({
+                      ...dateTime,
+                      endTime: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div className="mt-6">
