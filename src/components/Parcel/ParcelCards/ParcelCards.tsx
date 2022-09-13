@@ -1,7 +1,7 @@
-import type { SubQueryResponse } from "../../../@types/response";
+import type { ParcelTypes } from "../../../@types/response";
 import Card from "../../Card/Card";
 
-export default function ParcelCards({ data }: { data: SubQueryResponse }) {
+export default function ParcelCards({ data }: { data: ParcelTypes }) {
   const { PACKING, READY_TO_PICK, RECEIVING, SELLER_SHIPPED, SENT } = data;
 
   return (

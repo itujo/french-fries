@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import useSWR, { SWRConfig, unstable_serialize } from "swr";
 import type { GetWarehouses } from "../../../../@types/getOptions";
-import type { SubQueryResponse } from "../../../../@types/response";
+import type { ParcelTypes } from "../../../../@types/response";
 import ParcelCards from "../../../../components/Parcel/ParcelCards/ParcelCards";
 import { Api } from "../../../../services/api";
 import { getParcelsData } from "../../../../utils/getParcelsData";
@@ -40,7 +40,7 @@ const fetcher = (url: string) => Api.get(url).then((res) => res.data);
 
 function Parcels({ params, lastUpdated }) {
   const [lLastUpdated, setLastUpdated] = useState(lastUpdated);
-  const { data, error } = useSWR<SubQueryResponse | null>(
+  const { data, error } = useSWR<ParcelTypes | null>(
     `/subpackages/getall/${params.id}`,
     fetcher,
     {
