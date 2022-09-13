@@ -20,4 +20,7 @@ export interface GetMovTypes {
   code: number;
   updatedAt: string;
   createdAt: string;
+  sortingOrder: number;
+  labelA: boolean;
+  labelB: boolean;
 }

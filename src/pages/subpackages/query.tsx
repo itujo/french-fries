@@ -1,5 +1,6 @@
 import { sub } from "date-fns";
-import { useState } from "react";
+import { formatInTimeZone } from "date-fns-tz";
+import { useEffect, useState } from "react";
 import type {
   GetLabelTypes,
   GetMovTypes,
@@ -16,6 +17,7 @@ export async function getStaticProps() {
   const movTypes = await Api.get("/opt/movtypes")
     .then(({ data }) => data)
     .catch((err) => err.response.data);
+
   const warehouses = await Api.get("/opt/warehouses")
     .then(({ data }) => data)
     .catch((err) => err.response.data);
@@ -38,6 +40,7 @@ export default function QuerySubpackages({
   movTypes: GetMovTypes[];
   warehouses: GetWarehouses[];
 }) {
+  const [filteredMovTypes, setFilteredMovTypes] = useState(movTypes);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [labelType, setLabelType] = useState<number | null>(
     labelTypes[0]!.code
@@ -48,9 +51,15 @@ export default function QuerySubpackages({
   const [warehouse, setWarehouse] = useState<string | null>(
     `${warehouses[0]!.code}`
   );
-  const [endTime, setEndTime] = useState(
-    new Date().toISOString().split(".")[0]!
+
+  const d = new Date();
+  const endDate = formatInTimeZone(
+    d,
+    "America/Sao_Paulo",
+    `yyyy-MM-dd\'T\'HH:mm:ss`
   );
+
+  const [endTime, setEndTime] = useState(endDate);
   const [startTime, setStartTime] = useState(
     sub(new Date(endTime), {
       hours: 4,
@@ -60,6 +69,24 @@ export default function QuerySubpackages({
   );
 
   const [movData, setMovData] = useState<SubQueryResponse | null>(null);
+
+  useEffect(() => {
+    if (labelType === 1) {
+      const nMov = movTypes.filter((mov) => mov.labelB === true);
+      setFilteredMovTypes(nMov);
+    } else {
+      setFilteredMovTypes(movTypes);
+    }
+  }, [labelType, movTypes]);
+
+  useEffect(() => {
+    if (labelType === 1) {
+      const nMov = movTypes.filter((mov) => mov.labelB === true);
+      setFilteredMovTypes(nMov);
+    } else {
+      setFilteredMovTypes(movTypes);
+    }
+  }, [labelType, movTypes]);
 
   async function handleSubmit() {
     setIsSubmitting(true);
@@ -78,7 +105,7 @@ export default function QuerySubpackages({
     setMovData(r);
   }
 
-  if (labelTypes && movTypes) {
+  if (labelTypes && filteredMovTypes) {
     return (
       <>
         <div className="flex justify-center w-full">
@@ -137,7 +164,7 @@ export default function QuerySubpackages({
                   }
                   className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 >
-                  {movTypes.map((movType) => (
+                  {filteredMovTypes.map((movType) => (
                     <option key={movType.id} value={movType.code}>
                       {movType.description}
                     </option>
