@@ -95,8 +95,6 @@ export default function QuerySubpackages({
         warehouse: o.warehouse,
       }));
     }
-
-    console.log(options.labelType);
   }, [options.warehouse, labelTypes, warehouses, options.labelType]);
 
   useEffect(() => {
@@ -118,15 +116,6 @@ export default function QuerySubpackages({
 
   async function handleSubmit() {
     setIsSubmitting(true);
-    console.log(options.labelType);
-
-    console.log({
-      labelType: options.labelType,
-      movementType: options.movType,
-      startTime: dateTime.startTime,
-      endTime: dateTime.endTime,
-      warehouse: options.warehouse,
-    });
 
     const r = await Api.post("/subpackages/hourbyhour", {
       labelType: options.labelType,
