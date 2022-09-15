@@ -78,7 +78,7 @@ export default function Document() {
         />
         <meta
           name="twitter:image"
-          content="https://yourdomain.com/icons/android-chrome-192x192.png"
+          content="https://french-fries.vercel.app/icons/android-chrome-192x192.png"
         />
         <meta name="twitter:creator" content="@itujo" />
         <meta property="og:type" content="website" />
@@ -91,10 +91,10 @@ export default function Document() {
           property="og:site_name"
           content="Anjun Express - Management Module"
         />
-        <meta property="og:url" content="https://yourdomain.com" />
+        <meta property="og:url" content="https://french-fries.vercel.app" />
         <meta
           property="og:image"
-          content="https://yourdomain.com/icons/apple-touch-icon.png"
+          content="https://french-fries.vercel.app/icons/apple-touch-icon.png"
         />
 
         <link
