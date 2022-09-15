@@ -31,7 +31,7 @@ interface SELLER_SHIPPED {
 }
 
 // somente A
-interface READY_TO_PICK {
+interface TO_STORE {
   delivery_type: number[];
   is_cancel: string;
   start_sorted_time: string;
@@ -59,7 +59,7 @@ interface BASIC {
 
 interface mTypes {
   PACKING: PACKING;
-  READY_TO_PICK: READY_TO_PICK;
+  TO_STORE: TO_STORE;
   RECEIVING: RECEIVING;
   SELLER_SHIPPED: SELLER_SHIPPED;
   SENT: SENT;

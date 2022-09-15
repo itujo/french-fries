@@ -2,7 +2,7 @@ import type { ParcelTypes } from "../../../@types/response";
 import Card from "../../Card/Card";
 
 export default function ParcelCards({ data }: { data: ParcelTypes }) {
-  const { PACKING, READY_TO_PICK, RECEIVING, SELLER_SHIPPED, SENT } = data;
+  const { PACKING, TO_STORE, RECEIVING, SELLER_SHIPPED, SENT, PICKING } = data;
 
   return (
     <section className="bg-white dark:bg-gray-900">
@@ -18,7 +18,10 @@ export default function ParcelCards({ data }: { data: ParcelTypes }) {
             <Card description="Receiving A" data={RECEIVING?.labelA} />
           </div>
           <div>
-            <Card description="Ready To Pick A" data={READY_TO_PICK?.labelA} />
+            <Card description="To Store A" data={TO_STORE?.labelA} />
+          </div>
+          <div>
+            <Card description="Picking A" data={PICKING?.labelA} />
           </div>
           <div>
             <Card description="Packing A" data={PACKING?.labelA} />

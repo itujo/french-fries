@@ -129,6 +129,8 @@ export default function QuerySubpackages({
 
     setIsSubmitting(false);
 
+    console.log(r);
+
     setMovData(r);
   }
 
@@ -138,7 +140,7 @@ export default function QuerySubpackages({
         <div className="flex justify-center w-full">
           <div className="bg-white shadow-md rounded p-4 mb-4">
             <h1 className="text-center mt-2">consulta de subpacotes</h1>
-            <div className=" flex flex-1 gap-4">
+            <div className="grid md:flex md:flex-1 md:gap-6">
               <div className="mb-4">
                 <label
                   htmlFor="labels"
@@ -154,7 +156,7 @@ export default function QuerySubpackages({
                       warehouse: e.target.value,
                     })
                   }
-                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  className="border w-full md:w-44 border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
                 >
                   {warehouses.map((warehouse) => (
                     <option key={warehouse.id} value={warehouse.code}>
@@ -202,7 +204,7 @@ export default function QuerySubpackages({
                       movType: parseInt(e.target.value, 10),
                     })
                   }
-                  className="border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  className="border md:w-40 border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 >
                   {filtered.movTypes.map((movType) => (
                     <option key={movType.id} value={movType.code}>

@@ -13,7 +13,8 @@ export interface ParcelTypes {
     labelA: number;
     labelB: number | null;
   };
-  READY_TO_PICK: { labelA: number; labelB: number | null };
+  TO_STORE: { labelA: number; labelB: number | null };
+  PICKING: { labelA: number; labelB: number | null };
   RECEIVING: { labelA: number; labelB: number | null };
   SELLER_SHIPPED: { labelA: number; labelB: number | null };
   SENT: { labelA: number; labelB: number | null };
