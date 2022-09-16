@@ -10,38 +10,38 @@ export default function ParcelCards({ data }: { data: ParcelTypes }) {
         <div className="space-y-4 md:grid md:grid-cols-2 lg:grid-cols-5 md:gap-12 md:space-y-0">
           <div>
             <Card
-              description="Seller shipped A"
+              description="Enviado pelo seller A"
               data={SELLER_SHIPPED?.labelA}
             />
           </div>
           <div>
-            <Card description="Receiving A" data={RECEIVING?.labelA} />
+            <Card description="Varredura A" data={RECEIVING?.labelA} />
           </div>
           <div>
-            <Card description="To Store A" data={TO_STORE?.labelA} />
+            <Card description="Armazenagem A" data={TO_STORE?.labelA} />
           </div>
           <div>
-            <Card description="Picking A" data={PICKING?.labelA} />
+            <Card description="Retirada A" data={PICKING?.labelA} />
           </div>
           <div>
-            <Card description="Packing A" data={PACKING?.labelA} />
+            <Card description="Consolidação A" data={PACKING?.labelA} />
           </div>
           <div>
-            <Card description="Sent A" data={SENT?.labelA} />
+            <Card description="Enviado A" data={SENT?.labelA} />
           </div>
 
           <div>
             <Card
-              description="Seller shipped B"
+              description="Enviado pelo seller B"
               data={SELLER_SHIPPED?.labelB}
             />
           </div>
 
           <div>
-            <Card description="Receiving B" data={RECEIVING?.labelB} />
+            <Card description="Varredura B" data={RECEIVING?.labelB} />
           </div>
           <div>
-            <Card description="Sent B" data={SENT?.labelB} />
+            <Card description="Enviado B" data={SENT?.labelB} />
           </div>
         </div>
       </div>
